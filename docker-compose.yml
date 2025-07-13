@@ -101,3 +101,13 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker-1:29092,broker-2:29093,broker-3:29094
     networks:
       - kafka-net
+
+  spring-kafka-demo:
+    image: abnaveshubham/spring-kafka-demo:latest-14
+    container_name: spring-kafka-demo
+    ports:
+      - "8081:8081"
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: broker-1:9092,broker-2:9093,broker-3:9094
+    networks:
+      - kafka-net
