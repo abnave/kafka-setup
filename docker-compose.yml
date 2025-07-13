@@ -8,23 +8,24 @@ services:
     hostname: broker-1
     container_name: broker-1
     ports:
-      - "9092:9092"
+      - "9092:9092"   # Host access
+      - "29092:29092" # Container access
     environment:
-      KAFKA_KRAFT_MODE: "true"  # Enables KRaft mode.
-      KAFKA_PROCESS_ROLES: controller,broker  # Kafka acts as both controller and broker.
-      KAFKA_NODE_ID: 1  # Unique ID for the Kafka instance.
-      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker-1:9091,2@broker-2:9091,3@broker-3:9091"  # Controller quorum.
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9091
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_KRAFT_MODE: "true"
+      KAFKA_PROCESS_ROLES: controller,broker
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker-1:9091,2@broker-2:9091,3@broker-3:9091"
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9091,DOCKER://:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,DOCKER:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LOG_DIRS: /var/lib/kafka/data  # Log storage location.
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"  # Enables automatic topic creation.
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  # Single replica for simplicity.
-      KAFKA_LOG_RETENTION_HOURS: 168  # Log retention period (7 days).
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0  # No rebalance delay.
-      CLUSTER_ID: "L8ksc3icQ5a-vB-y24tUVA"  # Unique Kafka cluster ID.
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,DOCKER://broker-1:29092
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CLUSTER_ID: "L8ksc3icQ5a-vB-y24tUVA"
     volumes:
       - ./kafka-data/broker-1:/var/lib/kafka/data
     networks:
@@ -35,23 +36,24 @@ services:
     hostname: broker-2
     container_name: broker-2
     ports:
-      - "9093:9092"
+      - "9093:9093"
+      - "29093:29093"
     environment:
-      KAFKA_KRAFT_MODE: "true"  # Enables KRaft mode.
-      KAFKA_PROCESS_ROLES: controller,broker  # Kafka acts as both controller and broker.
-      KAFKA_NODE_ID: 2  # Unique ID for the Kafka instance.
-      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker-1:9091,2@broker-2:9091,3@broker-3:9091"  # Controller quorum.
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9091
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_KRAFT_MODE: "true"
+      KAFKA_PROCESS_ROLES: controller,broker
+      KAFKA_NODE_ID: 2
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker-1:9091,2@broker-2:9091,3@broker-3:9091"
+      KAFKA_LISTENERS: PLAINTEXT://:9093,CONTROLLER://:9091,DOCKER://:29093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,DOCKER:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LOG_DIRS: /var/lib/kafka/data  # Log storage location.
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"  # Enables automatic topic creation.
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  # Single replica for simplicity.
-      KAFKA_LOG_RETENTION_HOURS: 168  # Log retention period (7 days).
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0  # No rebalance delay.
-      CLUSTER_ID: "L8ksc3icQ5a-vB-y24tUVA"  # Unique Kafka cluster ID.
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9093,DOCKER://broker-2:29093
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CLUSTER_ID: "L8ksc3icQ5a-vB-y24tUVA"
     volumes:
       - ./kafka-data/broker-2:/var/lib/kafka/data
     networks:
@@ -62,28 +64,28 @@ services:
     hostname: broker-3
     container_name: broker-3
     ports:
-      - "9094:9092"
+      - "9094:9094"
+      - "29094:29094"
     environment:
-      KAFKA_KRAFT_MODE: "true"  # Enables KRaft mode.
-      KAFKA_PROCESS_ROLES: controller,broker  # Kafka acts as both controller and broker.
-      KAFKA_NODE_ID: 3  # Unique ID for the Kafka instance.
-      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker-1:9091,2@broker-2:9091,3@broker-3:9091"  # Controller quorum.
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9091
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_KRAFT_MODE: "true"
+      KAFKA_PROCESS_ROLES: controller,broker
+      KAFKA_NODE_ID: 3
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker-1:9091,2@broker-2:9091,3@broker-3:9091"
+      KAFKA_LISTENERS: PLAINTEXT://:9094,CONTROLLER://:9091,DOCKER://:29094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,DOCKER:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LOG_DIRS: /var/lib/kafka/data  # Log storage location.
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"  # Enables automatic topic creation.
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  # Single replica for simplicity.
-      KAFKA_LOG_RETENTION_HOURS: 168  # Log retention period (7 days).
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0  # No rebalance delay.
-      CLUSTER_ID: "L8ksc3icQ5a-vB-y24tUVA"  # Unique Kafka cluster ID.
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9094,DOCKER://broker-3:29094
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CLUSTER_ID: "L8ksc3icQ5a-vB-y24tUVA"
     volumes:
       - ./kafka-data/broker-3:/var/lib/kafka/data
     networks:
       - kafka-net
-
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -96,6 +98,6 @@ services:
       - broker-3
     environment:
       KAFKA_CLUSTERS_0_NAME: local-kraft-cluster
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: localhost:9092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker-1:29092,broker-2:29093,broker-3:29094
     networks:
       - kafka-net
