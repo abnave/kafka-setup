@@ -117,7 +117,7 @@ services:
       - kafka-net
 
   dev-commute:
-    image: abnaveshubham/dev-commute:latest-8
+    image: abnaveshubham/dev-commute:1.0.5
     container_name: dev-commute
     ports:
       - "8081:8081"
