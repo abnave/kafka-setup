@@ -116,9 +116,9 @@ services:
     networks:
       - kafka-net
 
-  spring-kafka-demo:
-    image: abnaveshubham/spring-kafka-demo:latest-22
-    container_name: spring-kafka-demo
+  dev-commute:
+    image: abnaveshubham/dev-commute:latest-8
+    container_name: dev-commute
     ports:
       - "8081:8081"
     environment:
